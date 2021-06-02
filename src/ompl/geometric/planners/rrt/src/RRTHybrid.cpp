@@ -139,7 +139,6 @@ ompl::base::PlannerStatus ompl::geometric::RRTHybrid::solve(const base::PlannerT
     std::string filepath = dir + "/plan" + std::to_string(start_time.time_since_epoch().count()) + ".csv";
 
     auto goal_vals = goal->as<ompl::base::GoalStates>()->getState(0)->as<ompl::base::RealVectorStateSpace::StateType>()->values;
-    goal->print();
     {
       std::ofstream file;
       file.open(filepath_start_stop);
@@ -158,7 +157,6 @@ ompl::base::PlannerStatus ompl::geometric::RRTHybrid::solve(const base::PlannerT
       for (int i = 0; i < si_->getStateDimension(); i++)
           file << start_vals[i] << ",";
       for (int i = 0; i < si_->getStateDimension(); i++)
-//          file << start_vals[i] << ",";
           file << goal_vals[i] << ",";
       file << "\n";
       file.close();
@@ -268,14 +266,6 @@ ompl::base::PlannerStatus ompl::geometric::RRTHybrid::solve(const base::PlannerT
             }
 
             // UNIQUE STUFF START
-            auto vals = dstate->as<ompl::base::RealVectorStateSpace::StateType>()->values;
-            std::cout << "DIMENTIONS: " << si_->getStateDimension() << std::endl;
-            std::cout << "[";
-            for (int i = 0; i < si_->getStateDimension() - 1; i++)
-            {
-                std::cout << vals[i] << ", ";
-            }
-            std::cout << vals[si_->getStateDimension() - 1] << "]" << std::endl;
 
             if (gen_state_)
             {
@@ -309,7 +299,6 @@ ompl::base::PlannerStatus ompl::geometric::RRTHybrid::solve(const base::PlannerT
                         file << true << "," << false << ",\n";
                         file.close();
                     }
-                    std::cout << "*******Smart state is valid" << std::endl;
                     auto *motion = new Motion(si_);
                     si_->copyState(motion->state, smart_state);
                     motion->parent = smart_motion;
@@ -325,19 +314,8 @@ ompl::base::PlannerStatus ompl::geometric::RRTHybrid::solve(const base::PlannerT
                         file << false << "," << false << ",\n";
                         file.close();
                     }
-                    std::cout << "Smart state is INVALID*******" << std::endl;
                 }
 
-                auto vals2 = smart_state->as<ompl::base::RealVectorStateSpace::StateType>()->values;
-                std::cout << "OUT: [";
-                for (int i = 0; i < si_->getStateDimension() - 1; i++)
-                {
-                    std::cout << vals2[i] << ", ";
-                }
-                std::cout << vals2[si_->getStateDimension() - 1] << "]" << std::endl;
-
-//                double dist = 0.0;
-//                sat = goal->isSatisfied(smart_motion->state, &dist);
             }
             // UNIQUE STUFF END
 
