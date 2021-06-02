@@ -34,8 +34,8 @@
 
 /* Author: Ioan Sucan */
 
-#ifndef OMPL_GEOMETRIC_PLANNERS_RRT_RRT_
-#define OMPL_GEOMETRIC_PLANNERS_RRT_RRT_
+#ifndef OMPL_GEOMETRIC_PLANNERS_RRT_RRT_HYBRID_
+#define OMPL_GEOMETRIC_PLANNERS_RRT_RRT_HYBRID_
 
 #include "ompl/datastructures/NearestNeighbors.h"
 #include "ompl/geometric/planners/PlannerIncludes.h"
@@ -44,6 +44,8 @@ namespace ompl
 {
     namespace geometric
     {
+
+    using genNewStateFn = std::function<void(const ompl::base::State*, ompl::base::State*&)>;
         /**
            @anchor gRRT
            @par Short description
@@ -62,13 +64,13 @@ namespace ompl
         */
 
         /** \brief Rapidly-exploring Random Trees */
-        class RRT : public base::Planner
+        class RRTHybrid : public base::Planner
         {
         public:
             /** \brief Constructor */
-            RRT(const base::SpaceInformationPtr &si, bool addIntermediateStates = false);
+            RRTHybrid(const base::SpaceInformationPtr &si, bool addIntermediateStates = false);
 
-            ~RRT() override;
+            ~RRTHybrid() override;
 
             void getPlannerData(base::PlannerData &data) const override;
 
@@ -137,6 +139,16 @@ namespace ompl
                 setup();
             }
 
+            void setGenFunction(genNewStateFn gen_function)
+            {
+                gen_state_ = gen_function;
+            }
+
+            genNewStateFn getGenFunction()
+            {
+                return gen_state_;
+            }
+
             void setup() override;
 
         protected:
@@ -193,6 +205,9 @@ namespace ompl
 
             /** \brief The most recent goal motion.  Used for PlannerData computation */
             Motion *lastGoalMotion_{nullptr};
+
+            genNewStateFn gen_state_{nullptr};
+
 
 //            std::vector<base::State> sampled_states_;
         };

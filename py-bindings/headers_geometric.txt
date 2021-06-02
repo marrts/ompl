@@ -19,6 +19,7 @@ src/ompl/geometric/planners/quotientspace/algorithms/MultiQuotient.h
 src/ompl/geometric/planners/quotientspace/QRRT.h
 src/ompl/geometric/planners/rrt/RRT.h
 src/ompl/geometric/planners/rrt/RRTConnect.h
+src/ompl/geometric/planners/rrt/RRTHybrid.h
 src/ompl/geometric/planners/rrt/LazyRRT.h
 src/ompl/geometric/planners/rrt/TRRT.h
 src/ompl/geometric/planners/rrt/RRTstar.h

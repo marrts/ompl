@@ -38,6 +38,7 @@
 #include <limits>
 #include "ompl/base/goals/GoalSampleableRegion.h"
 #include "ompl/tools/config/SelfConfig.h"
+#include <ompl/base/spaces/RealVectorStateSpace.h>
 
 ompl::geometric::RRT::RRT(const base::SpaceInformationPtr &si, bool addIntermediateStates)
   : base::Planner(si, addIntermediateStates ? "RRTintermediate" : "RRT")
@@ -174,6 +175,12 @@ ompl::base::PlannerStatus ompl::geometric::RRT::solve(const base::PlannerTermina
 
                 nmotion = motion;
             }
+
+//            sampled_states_.push_back(*dstate);
+//            auto vals = dstate->as<ompl::base::RealVectorStateSpace::StateType>()->values;
+
+//            std::cout << "VAL 0" << vals[0] << std::endl;
+
 
             double dist = 0.0;
             bool sat = goal->isSatisfied(nmotion->state, &dist);
